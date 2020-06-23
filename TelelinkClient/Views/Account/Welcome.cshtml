@@ -1,0 +1,32 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+    <div class="row">
+        <div class="col-sm-12">
+            <p>Username: @ViewBag.ViewModelUser.UserName</p>
+        </div>          
+        <div class="col-sm-12">           
+            <p>Password: @ViewBag.ViewModelUser.Password</p>
+        </div>          
+        <div class="col-sm-12">           
+            <p>Email: @ViewBag.ViewModelUser.Email</p>
+        </div>
+        <div class="col-sm-12">
+            <p>Owner name: @ViewBag.OWnerName</p>
+        </div>
+        <div class="col-sm-12">
+            <p>Model name: @ViewBag.ModelName</p>
+        </div>
+
+        <div class="col-sm-12">
+            <p>@ViewBag.JSONString</p>
+        </div>
+
+        <div class="col-sm-12">
+            <p>@ViewBag.ResponseMessage</p>
+        </div>
+
+    </div>
+
+

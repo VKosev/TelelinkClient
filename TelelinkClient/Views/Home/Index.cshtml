@@ -1,0 +1,30 @@
+﻿
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="row">
+
+    <div class="col-sm-5 bg-white  box-shadow border">
+        <div class="col-sm-12 text-center text-secondary mt-1">Login Form</div>
+        <form style="margin:10px;">
+            <div class="form-group">
+                <label for="InputUsername" class="mb-0">Username</label>
+                <input type="text" class="form-control" id="InputUsername" aria-describedby="emailHelp" placeholder="Username">
+            </div>
+
+            <div class="form-group">
+                <label for="InputPassword" class="mb-0">Password</label>
+                <input type="password" class="form-control" id="InputPassword" placeholder="Password">
+            </div>
+
+            <button type="submit" class="btn btn-primary col-sm-12">Login</button>
+
+            <div class="col-sm-12" style="padding:0;">
+                <small id="emailHelp" class="form-text text-muted">Don't have an account? <a class="ml-0" href="/Account/Register"><i>signup here</i></a></small>
+            </div>
+
+        </form>
+    </div>
+</div>
+
