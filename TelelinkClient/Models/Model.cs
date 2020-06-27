@@ -7,9 +7,7 @@ namespace TelelinkClient.Models
 {
     public class Model
     {
+        public int Id { set; get; }
         public String Name { get; set; }
-
-        public List<Owner> Owners {get; set;}
-
     }
 }

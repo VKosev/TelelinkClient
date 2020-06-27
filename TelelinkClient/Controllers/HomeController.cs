@@ -20,6 +20,11 @@ namespace TelelinkClient.Controllers
 
         public IActionResult Index()
         {
+            if(Request.Cookies.Any())
+            {
+                return RedirectToAction("AllData", "App");
+            }
+
             return View();
         }
 

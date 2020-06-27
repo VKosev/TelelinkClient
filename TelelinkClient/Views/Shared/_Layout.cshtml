@@ -12,28 +12,53 @@
         <div class="container-fluid" style="padding:0;">
             <div class="row">
                 <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3 col-sm-10">
-                    <div class="container">
-                        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Project Telelink</a>
+                    <div class="container" style="margin:0;">
+                        <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Index">Project Telelink</a>
                         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                                 aria-expanded="false" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                        <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse ml-5">
                             <ul class="navbar-nav flex-grow-1">
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">View data</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">View Data</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Add owner</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Add Model</a>
+                                </li>
+                                <li class="nav-item ml-auto">
+                                    <a class="btn btn-danger" asp-controller="Account" asp-action="GenerateFirstAdmin">Generate first admin !</a>
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </nav>
-                <div class="col-sm-2 bg-white border-bottom border-left box-shadow mb-3"><p>Some Text</p></div>
+
+                <div class="col-sm-2 bg-white border-bottom border-left box-shadow mb-3">
+                    @{
+                        if (Context.Request.Cookies.Any())
+                        {
+                           <div class="row">
+                               <div class="col">
+                                   <p class="mb-0">@Context.Request.Cookies["Username"]</p>
+                               </div>
+
+                               <div class="col align-content-end text-center">
+                                   <a class="text-black-50" href="#">logout</a>
+                               </div>
+                           </div>
+
+                           <div class="row">
+                               <div class="col-sm-5">
+                                   <a asp-controller="App" asp-action="UserData">profile</a>
+                               </div>
+                           </div>
+                        }
+                    }
+                </div>
             </div>
 
         </div>
