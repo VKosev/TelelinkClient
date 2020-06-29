@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Register";
+}
+
+    <div class="row">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-5 text-center mt-1 mx-auto mb-3" style="font-size:1.2em">Add more models to Telelink</div>
+            </div>
+        </div>
+        <div class="col-sm-5 bg-white  box-shadow  mx-auto">
+            <form style="margin:10px;" asp-controller="App" asp-action="AddModel" method="get" id="addModelForm">
+                <div class="form-group">
+                    <label for="inputModelName" class="mb-0">Model name</label>
+                    <input type="text" class="form-control" id="inputModelName" aria-describedby="inputModelName" name="modelName">
+                </div>
+                <button type="submit" class="btn btn-primary col-sm-12" id="addModelButton">Add Model</button>
+            </form>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-5 text-center mt-sm-5 mx-auto mb-2" style="font-size:1.2em">Manage models for your account</div>
+            </div>
+        </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-sm-6 mx-auto mt-2">
+                    <table class="table">
+                        <thead>
+                            <tr class="">
+                                <th>Models</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        @{  int cnt = 1;}
+                        @foreach ( var addToOwnerCount in ViewBag.addsToOwnerCountViewModel)
+                        {
+                           
+                            string btnId = cnt.ToString();
+                            <tr>
+                                <td>@addToOwnerCount.ModelName</td>
+                                @if(addToOwnerCount.AddsToOwner != 0)
+                                {
+                                    <td style="color:lightgreen">Added @addToOwnerCount.AddsToOwner x</td>
+                                }
+                                else
+                                {
+                                    <td style="color:red">Not Owned</td>
+                                }
+                            <td>
+                                <button class="btn-primary col-sm-3 deleteButton" id="@addToOwnerCount.ModelId"> - </button>
+                                <button class="btn-primary col-sm-3 addButton" id="@addToOwnerCount.ModelId"> + </button>
+                            </td>
+                            </tr>
+                            cnt++;
+                        }
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>

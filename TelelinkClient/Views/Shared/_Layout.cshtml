@@ -24,10 +24,10 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">View Data</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="App" asp-action="All data">View Data</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Add Model</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="App" asp-action="AddAssignModels">Add/Assign Models</a>
                                 </li>
                                 <li class="nav-item ml-auto">
                                     <a class="btn btn-danger" asp-controller="Account" asp-action="GenerateFirstAdmin">Generate first admin !</a>
@@ -39,7 +39,7 @@
 
                 <div class="col-sm-2 bg-white border-bottom border-left box-shadow mb-3">
                     @{
-                        if (Context.Request.Cookies.Any())
+                        if (Context.Request.Cookies.ContainsKey("Username"))
                         {
                            <div class="row">
                                <div class="col">
@@ -47,7 +47,7 @@
                                </div>
 
                                <div class="col align-content-end text-center">
-                                   <a class="text-black-50" href="#">logout</a>
+                                   <a class="text-black-50" asp-controller="Account" asp-action="Logout">logout</a>
                                </div>
                            </div>
 

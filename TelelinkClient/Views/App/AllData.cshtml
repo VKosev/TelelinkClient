@@ -20,9 +20,23 @@
                     <td>@user.OwnerModel.Description</td>
                     <td>@user.Email</td>
                     <td>@user.OwnerModel.Date</td>
-                </tr>                        
+                </tr>
             }
         </table>
     </div>
- 
+</div>
+<div class="row">
+    <div class="input-group mb-3 col-sm-6" style="margin-left:4.8rem">
+        <div class="input-group-prepend col-sm-12">
+            <button class="btn btn-outline-secondary dropdown-toggle col-sm-6" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sort</button>
+            <div class="dropdown-menu" style="width:47.2%">
+                <a class="dropdown-item" href="https://localhost:44301/App/AllData?id=1">By owner ascending</a>
+                <a class="dropdown-item" href="https://localhost:44301/App/AllData?id=2">By owner descending</a>
+                <a class="dropdown-item" href="https://localhost:44301/App/AllData?id=3">By model ascending</a>
+                <a class="dropdown-item" href="https://localhost:44301/App/AllData?id=4">By model descending</a>
+                <a class="dropdown-item" href="https://localhost:44301/App/AllData?id=5">By date ascending</a>
+                <a class="dropdown-item" href="https://localhost:44301/App/AllData?id=6">By date descending</a>
+            </div>
+        </div>
+    </div>
 </div>

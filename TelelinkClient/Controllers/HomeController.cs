@@ -20,7 +20,7 @@ namespace TelelinkClient.Controllers
 
         public IActionResult Index()
         {
-            if(Request.Cookies.Any())
+            if(Request.Cookies.ContainsKey("Username"))
             {
                 return RedirectToAction("AllData", "App");
             }

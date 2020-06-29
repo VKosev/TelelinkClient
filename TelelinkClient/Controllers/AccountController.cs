@@ -30,15 +30,15 @@ namespace TelelinkClient.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(ApplicationUser appUser, string password)
+        public async Task<IActionResult> Login(ApplicationUser applicationUser, string password)
         {
             var options = new JsonSerializerOptions{ WriteIndented = true };
 
             // JsonObject is used to perform the serialization.
             var jsonObject = new
             {
-                UserName = appUser.UserName,
-                Password = appUser.Password,
+                UserName = applicationUser.UserName,
+                Password = applicationUser.Password,
             };
 
             String jsonString = System.Text.Json.JsonSerializer.Serialize(jsonObject, options);
@@ -56,10 +56,10 @@ namespace TelelinkClient.Controllers
             {
                 var responseData = await response.Content.ReadAsStringAsync();
 
-                // definition anonymus object is used to extract only the JWT from the response.
-                var definition = new { token = new { result = ""}};
+                // JwtToken anonymus object is used to extract only the token from the response.
+                var JwtToken = new { token = new { result = ""}};
 
-                var jsonExtract = JsonConvert.DeserializeAnonymousType(responseData, definition);
+                var jsonExtract = JsonConvert.DeserializeAnonymousType(responseData, JwtToken);
 
                 HttpContext.Response.Cookies.Append(
                      "Token", jsonExtract.token.result,
@@ -71,9 +71,8 @@ namespace TelelinkClient.Controllers
                          Expires = DateTime.Now.AddDays(5)
 
                      });
-                HttpContext.Response.Cookies.Append("Username", appUser.UserName);
-
-                ViewBag.ResponseMessage = responseData;
+                HttpContext.Response.Cookies.Append("Username", applicationUser.UserName);
+                return RedirectToAction("Index", "Home"); 
             }
             else
             {
@@ -127,7 +126,15 @@ namespace TelelinkClient.Controllers
             }
             return View("Welcome");
         }
+        
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            HttpContext.Response.Cookies.Delete("Token");
+            HttpContext.Response.Cookies.Delete("Username");
 
+            return RedirectToAction("Index", "Home");
+        }
         [HttpGet]
         public async Task<IActionResult> GenerateFirstAdmin()
         {
