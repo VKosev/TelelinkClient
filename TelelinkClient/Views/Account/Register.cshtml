@@ -7,7 +7,7 @@
     <div class="col-sm-5 bg-white  box-shadow border">
         <div class="col-sm-12 text-center text-secondary mt-1">Registration Form</div>
 
-        <form style="margin:10px;"  asp-controller="Account" asp-action="Register" method="post">
+        <form style="margin:10px;" asp-controller="Account" asp-action="RegisterQueue" method="post" id="registerForm">
             <div class="form-group">
                 <label for="InputUsername" class="mb-0">Username</label>
                 <input type="text" class="form-control" id="InputUsername" aria-describedby="emailHelp" placeholder="Username" name="userName">
@@ -28,6 +28,13 @@
                 <input type="email" class="form-control" id="InputEmail" aria-describedby="emailHelp" placeholder="Enter email" name="email">
                 <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
             </div>
+            <div class="form-group">
+                <label for="InputEmail" class="mb-0">Choose role</label>
+                <select name="Role" id="inputRole" form="registerForm">
+                    <option value="User">User</option>
+                    <option value="Admin">Admin</option>
+                </select>
+            </div>
 
             <button type="submit" class="btn btn-primary col-sm-12">Signup</button>
 
@@ -35,6 +42,11 @@
                 <small id="emailHelp" class="form-text text-muted">Already have an account? <a class="ml-0" href="/Account/Login"><i>login here</i></a></small>
             </div>
         </form>
+        @if (ViewBag.Error != null)
+        {
+            <p class="text-center" style="color: red">@ViewBag.Error</p>
+        }
+
 
     </div>
 </div>

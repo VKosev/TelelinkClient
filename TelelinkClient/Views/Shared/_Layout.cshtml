@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - Telelink</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
 </head>
 <body>
     <header>
@@ -24,7 +25,7 @@
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="App" asp-action="All data">View Data</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="App" asp-action="AllData">View Data</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="App" asp-action="AddAssignModels">Add/Assign Models</a>
@@ -52,7 +53,7 @@
                            </div>
 
                            <div class="row">
-                               <div class="col-sm-5">
+                               <div class="col-sm-5" id="logout">
                                    <a asp-controller="App" asp-action="UserData">profile</a>
                                </div>
                            </div>
@@ -72,7 +73,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - HelloWorld - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Veliko Kosev - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

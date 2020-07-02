@@ -1,4 +1,7 @@
-﻿<div class="row">
+﻿@{
+    ViewData["Title"] = "Data for all users";
+}
+<div class="row">
     <div class="col-sm-10 mx-auto">
         <table class="table table-bordered">
             <thead>
@@ -11,16 +14,19 @@
                     <th>Date</th>
                 </tr>
             </thead>
-            @foreach (var user in ViewBag.AllUsersData)
+            @if (ViewBag.AllUsersData != null)
             {
-                <tr>
-                    <td>@user.UserName</td>
-                    <td>@user.OwnerName</td>
-                    <td>@user.ModelName</td>
-                    <td>@user.OwnerModel.Description</td>
-                    <td>@user.Email</td>
-                    <td>@user.OwnerModel.Date</td>
-                </tr>
+                @foreach (var user in ViewBag.AllUsersData)
+                {
+                    <tr>
+                        <td>@user.UserName</td>
+                        <td>@user.OwnerName</td>
+                        <td>@user.ModelName</td>
+                        <td>@if (@user.OwnerModels.Description != null) {@user.OwnerModels.Description}</td>
+                        <td>@user.Email</td>
+                        <td>@if (user.OwnerModels.Date != null) {@user.OwnerModels.Date}</td>
+                    </tr>
+                }
             }
         </table>
     </div>

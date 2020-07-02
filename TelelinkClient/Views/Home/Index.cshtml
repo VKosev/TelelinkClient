@@ -25,6 +25,11 @@
                     <small id="emailHelp" class="form-text text-muted">Don't have an account? <a class="ml-0" href="/Account/Register"><i>signup here</i></a></small>
                 </div>
             </form>
+            @if (ViewBag.Error != null)
+            {
+                <p class="text-center" style="color: red">@ViewBag.Error</p>
+            }
+          
         </div>
     </div>
 

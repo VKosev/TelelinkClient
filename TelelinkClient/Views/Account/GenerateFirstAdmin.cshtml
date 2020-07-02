@@ -1,4 +1,27 @@
-﻿
+﻿<div class="container-fluid">
+    <div class="row">
+        @if (@ViewBag.AdminUser != null)
+        {
+            <h2>@ViewBag.AdminUser.Message</h2>
 
-    <p>@ViewBag.SomeData</p> <br />
-                             <p>@ViewBag.SomeData</p>
+        }
+        else
+        {
+            @if (@ViewBag.Error != null)
+            {
+                <h2 class="text-center" style="color:red;">@ViewBag.Error</h2>
+            }
+        }
+    </div>
+    @if (ViewBag.AdminUser != null)
+    {
+        <div class="row">
+            <div class="col-sm-2">
+                <p>Username: @ViewBag.AdminUser.UserName</p>
+                <p>Password: @ViewBag.AdminUser.Password</p>
+            </div>
+        </div>
+    }
+
+</div>
+                            

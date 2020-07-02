@@ -2,8 +2,41 @@
 // for details on configuring this project to bundle and minify static web assets.
 
 // Write your JavaScript code.
-var asignModelToOwnerFunction;
+var flag = false;
+var errorShown = false;
+function checkPendingRegistration() {
+    setInterval(function () {
+        $.ajax({
+            url: "/app/checkPendingRegistrations",
+            method: "GET",
+            success: function (data) {
+                console.log(data);
+                
+                if (flag == false) {
+                    var htmlInput =
+                   `<div class="col align-content-end text-center" id="pending">
+                        <a href="/app/PendingRegistrations" style="color: red;">pending: ` + data + `</a>
+                    </div>`
+                    if (errorShown == true)
+                        $("#pending").remove();
 
+                    //$("#pending").remove();
+                    $('#logout').after(htmlInput)
+                    // flag = true;
+                    errorShown = true;
+                }               
+            }
+        });
+    }, 1000);
+   
+}
+$(window).on("load", function () {
+
+    if (document.cookie.split('; ').find(row => row.startsWith('Role'))) {       
+        this.checkPendingRegistration();
+       
+    }  
+});
 
 $(document).ready(function () {
 
@@ -23,8 +56,11 @@ $(document).ready(function () {
             },
             error: function (data) {
                 var erroMessage = data["responseText"];
-                var htmlInput = `<p style="color: red;" class="mt-2">` + erroMessage + "</p>";
+                var htmlInput = `<p style="color: red;" class="mt-2 er">` + erroMessage + "</p>";
+                if (errorShown == true)
+                    $(".er").remove();
                 $("#addModelButton").after(htmlInput);
+                errorShown = true;
             }
         });
         e.preventDefault();
@@ -42,11 +78,15 @@ $(document).ready(function () {
             },
             error: function (data) {
                 var erroMessage = data["responseText"];
-                var htmlInput = `<p style="color: red;" class="mt-2">` + erroMessage + "</p>";
+                var htmlInput = `<p style="color: red;" class="mt-2 er">` + erroMessage + "</p>";
+
+                if (errorShown == true)
+                    $(".er").remove();
                 $("#addModelButton").after(htmlInput);
+                errorShown = true;              
             }
         });
-        e.preventDefault();
+       
     });
 
     $(".addButton").click(function () {
@@ -80,8 +120,13 @@ $(document).ready(function () {
                 },
                 error: function (data) {
                     var erroMessage = data["responseText"];
-                    var htmlInput = `<p style="color: red;" class="mt-2">` + erroMessage + "</p>";
+                    var htmlInput = `<p style="color: red;" class="mt-2 er">` + erroMessage + "</p>";
+                   
+                    if (errorShown == true)
+                        $(".er").remove();
+
                     $("#addModelButton").after(htmlInput);
+                    errorShown = true;
                 }   
             });
         }

@@ -7,6 +7,7 @@ using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Razor.Compilation;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TelelinkClient.ViewModels;
@@ -19,9 +20,9 @@ namespace TelelinkClient.Controllers
 
         public AppController(IHttpClientFactory clientFactory)
         {
-           
+
             this._clientFactory = clientFactory;
-           
+
         }
 
         [HttpGet]
@@ -33,7 +34,7 @@ namespace TelelinkClient.Controllers
                 "https://localhost:44393/api/App/Owners");
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "TelelinkClient");
-            
+
             var client = _clientFactory.CreateClient();
             client.DefaultRequestHeaders.Accept.Add(
                 new MediaTypeWithQualityHeaderValue("application/json"));
@@ -41,7 +42,7 @@ namespace TelelinkClient.Controllers
                 new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.SendAsync(request);
-           
+
             if (response.IsSuccessStatusCode)
             {
                 string responseData = await response.Content.ReadAsStringAsync();
@@ -65,49 +66,8 @@ namespace TelelinkClient.Controllers
             string url;
             if (id != 0) { url = "https://localhost:44393/api/App/AllData?id=" + id; }
             else { url = "https://localhost:44393/api/App/AllData"; }
-            Console.WriteLine(url);
-
-             var request = new HttpRequestMessage(HttpMethod.Get, url
-                 );
-             request.Headers.Add("Accept", "application/json");
-             request.Headers.Add("User-Agent", "TelelinkClient");
-
-             var client = _clientFactory.CreateClient();
-             client.DefaultRequestHeaders.Accept.Add(
-                 new MediaTypeWithQualityHeaderValue("application/json"));
-             client.DefaultRequestHeaders.Authorization =
-                 new AuthenticationHeaderValue("Bearer", token);
-
-             var response = await client.SendAsync(request);
-
-             if (response.IsSuccessStatusCode)
-             {
-                 string responseData = await response.Content.ReadAsStringAsync();
-                 List<AllUsersDataViewModel> allUsersData = JsonConvert.DeserializeObject<List<AllUsersDataViewModel>>(responseData);
-                 
-                 ViewBag.AllUsersData = allUsersData;
-                 return View();
-             }
-             else
-             {
-                 string responseData = await response.Content.ReadAsStringAsync();
-
-                 ViewBag.SomeData = responseData.ToString();
-                 return View();
-             }
-            
-
-        }
-        [HttpGet]
-        public async Task<IActionResult> UserData()
-        {
-            string token = Request.Cookies["Token"];
-
-            var cookie= new { username = Request.Cookies["Username"] };
-
-            string url = "https://localhost:44393/api/App/UserData?username="+ cookie.username;
-
-            var request = new HttpRequestMessage(HttpMethod.Get,url);
+          
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
             request.Headers.Add("Accept", "application/json");
             request.Headers.Add("User-Agent", "TelelinkClient");
 
@@ -118,7 +78,48 @@ namespace TelelinkClient.Controllers
                 new AuthenticationHeaderValue("Bearer", token);
 
             var response = await client.SendAsync(request);
-           
+
+            if (response.IsSuccessStatusCode)
+            {
+                string responseData = await response.Content.ReadAsStringAsync();
+                List<AllUsersDataViewModel> allUsersData = JsonConvert.DeserializeObject<List<AllUsersDataViewModel>>(responseData);
+
+                ViewBag.AllUsersData = allUsersData;
+                return View();
+            }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
+            else
+            {
+                string responseData = await response.Content.ReadAsStringAsync();
+                ViewBag.Error = responseData.ToString();
+
+                return View("Message");
+            }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> UserData()
+        {
+            string token = Request.Cookies["Token"];
+
+            var cookie = new { username = Request.Cookies["Username"] };
+
+            string url = "https://localhost:44393/api/App/UserData?username=" + cookie.username;
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("User-Agent", "TelelinkClient");
+
+            var client = _clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.SendAsync(request);
+
             if (response.IsSuccessStatusCode)
             {
                 var responseData = await response.Content.ReadAsStringAsync();
@@ -129,6 +130,10 @@ namespace TelelinkClient.Controllers
 
                 return View(userDataViewModel);
             }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
+            
             else
             {
                 string responseData = await response.Content.ReadAsStringAsync();
@@ -139,7 +144,7 @@ namespace TelelinkClient.Controllers
         }
 
         [HttpGet]
-       public async Task<IActionResult> AddAssignModels()
+        public async Task<IActionResult> AddAssignModels()
         {
             string token = Request.Cookies["Token"];
 
@@ -169,13 +174,15 @@ namespace TelelinkClient.Controllers
 
                 return View();
             }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
             else
             {
                 string responseData = await response.Content.ReadAsStringAsync();
-
-                ViewBag.SomeData = responseData.ToString();
+                ViewBag.Error = responseData.ToString();
             }
-            return View("Welcome");
+            return View("Message");
         }
         [HttpGet]
         public async Task<IActionResult> AddModel(string modelName)
@@ -200,12 +207,18 @@ namespace TelelinkClient.Controllers
             {
                 return RedirectToAction("AddAssignModels", "App");
             }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
             else
             {
-                string addModelError = await response.Content.ReadAsStringAsync();
-                return BadRequest(addModelError);
+                string error = await response.Content.ReadAsStringAsync();
+
+                //// Returns BadRequest(), because only Javascript make calls to this action
+                return BadRequest(error);
             }
         }
+
         [HttpGet]
         public async Task<IActionResult> AssignModel(string description, int id)
         {
@@ -228,13 +241,19 @@ namespace TelelinkClient.Controllers
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
-            {              
+            {
                 return RedirectToAction("AddAssignModels", "App");
             }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
             else
             {
-                string addModelError = await response.Content.ReadAsStringAsync();
-                return BadRequest(addModelError);
+                
+                string error = await response.Content.ReadAsStringAsync();
+
+                // Returns BadRequest(), because only Javascript make calls to this action
+                return BadRequest(error);
             }
         }
 
@@ -261,15 +280,98 @@ namespace TelelinkClient.Controllers
             var response = await client.SendAsync(request);
 
             if (response.IsSuccessStatusCode)
-            {                
+            {
                 return RedirectToAction("AddAssignModels", "App");
+            }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
+            else
+            {
+                string error = await response.Content.ReadAsStringAsync();
+
+                // Returns BadRequest(), because only Javascript make calls to this action
+                return BadRequest(error);
+            }
+
+        }
+
+        
+
+        [HttpGet]
+        public async Task<IActionResult> PendingRegistrations()
+        {
+            string token = Request.Cookies["Token"];
+
+            var cookie = new { username = Request.Cookies["Username"] };
+
+            string url = "https://localhost:44393/api/App/PendingRegistrations";
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("User-Agent", "TelelinkClient");
+
+            var client = _clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var responseData = await response.Content.ReadAsStringAsync();
+
+                List<PendingRegistrationViewModel> pendingRegistrations = JsonConvert.DeserializeObject<List<PendingRegistrationViewModel>>(responseData);
+
+                ViewBag.PendingRegistrations = pendingRegistrations;
+
+                return View();
+            }
+
+            if (response.StatusCode == HttpStatusCode.Unauthorized || response.StatusCode == HttpStatusCode.Unauthorized)
+                return View("Unauthorized");
+            else
+            {
+                string responseData = await response.Content.ReadAsStringAsync();
+
+                ViewBag.Error = responseData.ToString();
+                return View("Message");
+            }
+            
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<string>> CheckPendingRegistrations()
+        {
+            string token = Request.Cookies["Token"];
+
+            var cookie = new { userName = Request.Cookies["Username"] };
+
+            string url = "https://localhost:44393/api/App/checkPendingRegistrations";
+
+
+            var request = new HttpRequestMessage(HttpMethod.Get, url);
+            request.Headers.Add("Accept", "application/json");
+            request.Headers.Add("User-Agent", "TelelinkClient");
+
+            var client = _clientFactory.CreateClient();
+            client.DefaultRequestHeaders.Accept.Add(
+                new MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await client.SendAsync(request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                return await response.Content.ReadAsStringAsync();
             }
             else
             {
-                string addModelError = await response.Content.ReadAsStringAsync();
-                return BadRequest(addModelError);
+                return BadRequest();
             }
-
         }
     }
 }

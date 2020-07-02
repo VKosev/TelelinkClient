@@ -1,32 +1,35 @@
-﻿@model TelelinkClient.ViewModels.UserDataViewModel
+﻿@{
+    ViewData["Title"] = "Profile";
+}
+@model TelelinkClient.ViewModels.UserDataViewModel
 
-    <div class="row">
-        <div class="col-sm-12 "><h1 class="">Profile</h1></div>
-        <div class="col-sm-12 ">
-            <p class="mb-0">Username: @Model.Username</p>
-        </div>
-
-        <div class="col-sm-12" >
-            <p class="mb-0">Owner name: @Model.OwnerName</p>
-        </div>
-
-        <div class="col-sm-12 ">
-            <p class="mb-0">Email: @Model.Email</p>
-        </div>
-        <div class="col-sm-12 pl-0">
-            <div class="col-sm-12 "><p class="mb-0">Models names:</p></div>
-            @{
-                <div class="col-sm-12 ">
-                    <ul class="col-sm-1 ">
-                        @foreach (var modelName in Model.ModelsNames)
-                        {
-                            <li>
-                                @modelName
-                            </li>
-                        }
-                    </ul>
-                </div>                
-            }
-        </div>
-
+<div class="row">
+    <div class="col-sm-12 "><h1 class="">Profile</h1></div>
+    <div class="col-sm-12 ">
+        <p class="mb-0">Username: @Model.Username</p>
     </div>
+
+    <div class="col-sm-12">
+        <p class="mb-0">Owner name: @Model.OwnerName</p>
+    </div>
+
+    <div class="col-sm-12 ">
+        <p class="mb-0">Email: @Model.Email</p>
+    </div>
+    <div class="col-sm-12 pl-0">
+        <div class="col-sm-12 "><p class="mb-0">Models names:</p></div>
+        @{
+            <div class="col-sm-12 ">
+                <ul class="col-sm-1 ">
+                    @foreach (var modelName in Model.ModelsNames)
+                    {
+                        <li>
+                            @modelName
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+
+</div>

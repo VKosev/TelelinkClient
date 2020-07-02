@@ -9,7 +9,7 @@ namespace TelelinkClient.ViewModels
 {
     public class AllUsersDataViewModel
     {
-        public OwnerModel OwnerModel { get; set; }
+        public OwnerModel OwnerModels { get; set; }
         public String OwnerName { get; set; }
         public String ModelName { get; set; }
         public String UserName { get; set; }

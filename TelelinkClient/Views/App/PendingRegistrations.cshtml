@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Pending Registrations";
+}
+
+<div class="row">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-5 text-center mt-sm-5 mx-auto mb-2" style="font-size:1.2em">Pending Registrations</div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-8 mx-auto mt-2">
+                <table class="table">
+                    <thead>
+                        <tr class="">
+                            <th>UserName</th>
+                            <th>Email</th>
+                            <th>Owner</th>
+                            <td>Role</td>
+                            <td>Action</td>
+                        </tr>
+                    </thead>                
+                    @foreach (var pendingRegistration in ViewBag.PendingRegistrations)
+                    {
+                        <tr>
+                            <td>@pendingRegistration.UserName</td>
+                            <td>@pendingRegistration.OwnerName</td>
+                            <td>@pendingRegistration.Email</td>
+                            <td>@pendingRegistration.Role</td>
+                            <td><a href="/account/DeletePendingRegistration?id=@pendingRegistration.Id">Remove</a> / <a href="/account/ApprovePendingRegistration?id=@pendingRegistration.Id">Accept</a></td>
+                        </tr>                          
+                    }
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
